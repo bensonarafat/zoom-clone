@@ -23,11 +23,11 @@
             </div>
             <div class="main__controls">
                 <div class="main__controls_block">
-                    <div class="main__controls__button">
+                    <div onclick="muteUnmute()" class="main__controls__button main__mute_button">
                         <img src="/icon/mic.svg" alt="" srcset="">
                         <span>Mute</span>
                     </div>
-                    <div class="main__controls__button">
+                    <div onclick="playStop()" class="main__controls__button main_video_button">
                         <img src="/icon/video.svg" alt="" srcset="">
                         <span>Stopped Button</span>
                     </div>
@@ -61,7 +61,7 @@
                 <h6>Chat</h6>
             </div>
             <div class="main__chat_window">
-                <ul class="messages">
+                <ul id="messages">
 
                 </ul>
             </div>

@@ -13,7 +13,7 @@ var peer = new Peer(undefined, {
 let myVideoStream;
 navigator.mediaDevices.getUserMedia({
     video: true, 
-    audio: false,
+    audio: true,
 }).then((stream) => {
     myVideoStream = stream
     addVideoStream(myVideo, stream);
@@ -64,3 +64,82 @@ document.addEventListener("keydown", (e) => {
     }
    
 });
+
+
+socket.on("createMessage", message => {
+    let messages = document.getElementById("messages");
+    const li = document.createElement("li");
+    const b = document.createElement("b");
+    const br = document.createElement("br");
+    b.append("user");
+    messages.append(li)
+    li.prepend(b)
+    li.append(br, message);
+    scrollToBottom();
+});
+
+
+const scrollToBottom = () => {
+    let mainChatWindow = document.getElementsByClassName("main__chat_window");
+    let child = mainChatWindow[0]; 
+    child.scrollTop = child.scrollHeight;
+}
+
+//mute our video 
+const muteUnmute = () => {
+    const enable = myVideoStream.getAudioTracks()[0].enable;
+    if(enable){
+        myVideoStream.getAudioTracks()[0].enable = false;
+        setUnmuteButton();
+    }else{
+        setMuteButton();
+        myVideoStream.getAudioTracks()[0].enable = true;
+    }
+}
+
+const setMuteButton = () => {
+    const html = `
+    <img src="/icon/mic-off.svg" alt="" srcset="">
+    <span>Mute</span>
+    `;
+
+    document.querySelector(".main__mute_button").innerHTML = html;
+}
+
+const setUnmuteButton = () => {
+    const html = `
+    <img src="/icon/mic.svg" alt="" srcset="">
+    <span>Mute</span>
+    `;
+
+    document.querySelector(".main__mute_button").innerHTML = html;
+}
+
+const playStop = () => {
+    let enabled = myVideoStream.getVideoTracks()[0].enabled;
+    if(enabled){
+        myVideoStream.getVideoTracks()[0].enabled = false;
+        setPlayVideo();
+    }else {
+        setStopVideo();
+        myVideoStream.getVideoTracks()[0].enabled = true;
+    }
+}
+
+const setPlayVideo = () => {
+    const html = `
+    <img src="/icon/video-off.svg" alt="" srcset="">
+    <span>Start Video</span>
+    `;
+
+    document.querySelector(".main_video_button").innerHTML = html;
+}
+
+const setStopVideo = () => {
+    const html = `
+    <img src="/icon/video.svg" alt="" srcset="">
+    <span>Stop Video</span>
+    `;
+
+    document.querySelector(".main_video_button").innerHTML = html;
+}
